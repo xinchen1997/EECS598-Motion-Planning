@@ -38,7 +38,7 @@ if __name__ == "__main__":
     robot = env.GetRobots()[0]
 
     # tuck in the PR2's arms for driving
-    tuckarms(env,robot);
+    tuckarms(env,robot)
 
 
     #### YOUR CODE HERE ####

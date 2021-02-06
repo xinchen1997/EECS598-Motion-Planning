@@ -42,9 +42,27 @@ if __name__ == "__main__":
 
 
     #### YOUR CODE HERE ####
+    env.Load('robots/puma.robot.xml')
+    time.sleep(0.1)
+    puma = env.GetRobots()[1]
     
+    # move puma near robot
+    with env:
+        goal = [-2.5, -1.4, 0.05]
+        T = numpy.identity(4)
+        T[0:3, 3] = goal
+        puma.SetTransform(T)
 
+    # move robot and check collision
+    with env:
+        jointnames = ['l_shoulder_lift_joint','l_elbow_flex_joint','l_wrist_flex_joint','r_shoulder_lift_joint','r_elbow_flex_joint','r_wrist_flex_joint']
+        robot.SetActiveDOFs([robot.GetJoint(name).GetDOFIndex() for name in jointnames])
+        robot.SetActiveDOFValues([0,-1,0,1.27843491,-2.32100002,-0.69799996]);
+        robot.GetController().SetDesired(robot.GetDOFValues());
+    waitrobot(robot)
 
+    print "The result of a CheckCollision command:"
+    print env.CheckCollision(robot, puma)
 
     #### END OF YOUR CODE ###
 
